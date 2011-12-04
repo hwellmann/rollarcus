@@ -32,7 +32,9 @@ public class EntryBasicTests extends TestCase {
     
     
     protected void setUp() throws Exception {
-        testSub = TestUtils.setupSubscription("entryBasicTest");
+        // setup weblogger
+        TestUtils.setupWeblogger();
+		testSub = TestUtils.setupSubscription("entryBasicTest");
     }
     
     

@@ -45,6 +45,8 @@ public class EntryFunctionalTests extends TestCase {
     
     
     protected void setUp() throws Exception {
+        // setup weblogger
+        TestUtils.setupWeblogger();
 
         log.info("ENTERED");
         

@@ -36,6 +36,9 @@ public class PlanetFunctionalTests extends TestCase {
     
     
     protected void setUp() throws Exception {
+        // setup weblogger
+        TestUtils.setupWeblogger();
+		
         testPlanet = TestUtils.setupPlanet("planetFuncTest");
     }
     

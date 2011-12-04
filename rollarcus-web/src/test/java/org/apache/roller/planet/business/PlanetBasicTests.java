@@ -33,7 +33,10 @@ public class PlanetBasicTests extends TestCase {
     
     
     public void testPlanetCRUD() throws Exception {
-        
+        // setup weblogger
+        TestUtils.setupWeblogger();
+		
+ 
         PlanetManager mgr = WebloggerFactory.getWeblogger().getPlanetManager();
         
         Planet testPlanet = new Planet("testPlanet", "testPlanet", "testPlanet");

@@ -39,7 +39,11 @@ public class SingleThreadedFeedUpdaterTest extends TestCase {
     
     
     protected void setUp() throws Exception {
-        // add test subscription
+        // setup weblogger
+        TestUtils.setupWeblogger();
+		
+
+		// add test subscription
         PlanetManager mgr = WebloggerFactory.getWeblogger().getPlanetManager();
         testSub = new Subscription();
         testSub.setTitle(feed_url);

@@ -20,6 +20,7 @@ package org.apache.roller.planet.business;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.apache.roller.weblogger.TestUtils;
 
 
 /**
@@ -35,7 +36,10 @@ import junit.framework.TestSuite;
  */
 public class PlanetTestSuite {
     
-    public static Test suite() {
+    public static Test suite() throws Exception {
+        // setup weblogger
+        TestUtils.setupWeblogger();
+		
 
         TestSuite suite = new TestSuite();
 	

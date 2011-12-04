@@ -52,7 +52,7 @@
 						</goals>
 						<configuration>
 							<includeEmptyDirs>true</includeEmptyDirs>
-							<outputDirectory>${project.build.directory}/dbscripts</outputDirectory>
+							<outputDirectory>${basedir}/target/dbscripts</outputDirectory>
 							<resources>
 								<resource>
 									<directory>${basedir}/src/main/resources/sql</directory>
@@ -70,23 +70,6 @@
 						</goals>
 						<configuration>
 							<outputDirectory>${basedir}/target/testsetup</outputDirectory>
-							<resources>
-								<resource>
-									<directory>src/test/resources</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-
-					<execution>
-						<id>copy-test-config</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target/</outputDirectory>
 							<resources>
 								<resource>
 									<directory>src/test/resources</directory>
@@ -333,6 +316,13 @@
 				<directory>src/test/resources</directory>
 				<filtering>true</filtering>
 			</testResource>
+			<testResource>
+                <directory>${project.basedir}/src/main/webapp/</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>themes/**</include>
+                </includes>
+            </testResource>
 		</testResources>
 
 		<resources>

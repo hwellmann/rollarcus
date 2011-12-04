@@ -35,7 +35,10 @@ public class GroupFunctionalTests extends TestCase {
     
     
     protected void setUp() throws Exception {
-        testPlanet = TestUtils.setupPlanet("groupFuncTest");
+        // setup weblogger
+        TestUtils.setupWeblogger();
+		
+		testPlanet = TestUtils.setupPlanet("groupFuncTest");
         testGroup1 = TestUtils.setupGroup(testPlanet, "groupFuncTest1");
         testGroup2 = TestUtils.setupGroup(testPlanet, "groupFuncTest2");
     }

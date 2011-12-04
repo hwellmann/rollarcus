@@ -37,7 +37,10 @@ public class SubscriptionFunctionalTests extends TestCase {
     
     
     protected void setUp() throws Exception {
-        testPlanet = TestUtils.setupPlanet("subFuncTest");
+        // setup weblogger
+        TestUtils.setupWeblogger();
+
+		testPlanet = TestUtils.setupPlanet("subFuncTest");
         testGroup1 = TestUtils.setupGroup(testPlanet, "subFuncTest1");
         testGroup2 = TestUtils.setupGroup(testPlanet, "subFuncTest2");
         testSub1 = TestUtils.setupSubscription("subFuncTest1");

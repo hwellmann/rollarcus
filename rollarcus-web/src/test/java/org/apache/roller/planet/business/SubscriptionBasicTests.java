@@ -29,7 +29,11 @@ public class SubscriptionBasicTests extends TestCase {
     
     
     public void testSubscriptionCRUD() throws Exception {
-        
+       
+        // setup weblogger
+        TestUtils.setupWeblogger();
+		
+
         PlanetManager mgr = WebloggerFactory.getWeblogger().getPlanetManager();
         
         Subscription testSub = new Subscription();
