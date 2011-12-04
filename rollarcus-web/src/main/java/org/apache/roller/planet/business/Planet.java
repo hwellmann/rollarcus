@@ -19,7 +19,6 @@
 package org.apache.roller.planet.business;
 
 import org.apache.roller.planet.PlanetException;
-import org.apache.roller.planet.business.PropertiesManager;
 import org.apache.roller.planet.business.fetcher.FeedFetcher;
 
 
@@ -32,19 +31,6 @@ public interface Planet {
      * Get PlanetManager associated with this Roller instance.
      */
     public PlanetManager getPlanetManager();
-    
-    
-    /**
-     * Get PropertiesManager.
-     */
-    public PropertiesManager getPropertiesManager();
-    
-    
-    /**
-     * Get the configured URLStrategy.
-     */
-    public URLStrategy getURLStrategy();
-    
     
     /**
      * Get the configured FeedFetcher.
@@ -61,7 +47,7 @@ public interface Planet {
     /**
      * Initialize any resources necessary for this instance of Roller.
      */
-    public void initialize() throws InitializationException;
+    public void initialize() throws Exception;
     
 
     /**

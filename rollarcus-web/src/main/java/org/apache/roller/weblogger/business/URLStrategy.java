@@ -241,4 +241,10 @@ public interface URLStrategy {
 
     /* Get URL for obtaining OAuth Access Token */
     public String getOAuthAccessTokenURL();
+
+	public String getPlanetURL(String string);
+
+	public String getPlanetGroupURL(String string, String group, int pageNum);
+
+	public String getPlanetGroupFeedURL(String string, String group, String format);
 }

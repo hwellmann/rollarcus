@@ -17,8 +17,9 @@
 package org.apache.roller.planet.business;
 
 import junit.framework.TestCase;
-import org.apache.roller.planet.TestUtils;
 import org.apache.roller.planet.pojos.Subscription;
+import org.apache.roller.weblogger.TestUtils;
+import org.apache.roller.weblogger.business.WebloggerFactory;
 
 
 /**
@@ -29,10 +30,7 @@ public class SubscriptionBasicTests extends TestCase {
     
     public void testSubscriptionCRUD() throws Exception {
         
-        // setup planet
-        TestUtils.setupPlanet();
-
-        PlanetManager mgr = PlanetFactory.getPlanet().getPlanetManager();
+        PlanetManager mgr = WebloggerFactory.getWeblogger().getPlanetManager();
         
         Subscription testSub = new Subscription();
         testSub.setFeedURL("test_title");

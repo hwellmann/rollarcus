@@ -16,12 +16,12 @@
 
 package org.apache.roller.planet.business;
 
-import java.util.List;
 import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.roller.planet.TestUtils;
 import org.apache.roller.planet.pojos.Planet;
+import org.apache.roller.weblogger.TestUtils;
+import org.apache.roller.weblogger.business.WebloggerFactory;
 
 
 /**
@@ -34,10 +34,7 @@ public class PlanetBasicTests extends TestCase {
     
     public void testPlanetCRUD() throws Exception {
         
-        // setup planet
-        TestUtils.setupPlanet();
-
-        PlanetManager mgr = PlanetFactory.getPlanet().getPlanetManager();
+        PlanetManager mgr = WebloggerFactory.getWeblogger().getPlanetManager();
         
         Planet testPlanet = new Planet("testPlanet", "testPlanet", "testPlanet");
         Planet planet = null;

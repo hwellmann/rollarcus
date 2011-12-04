@@ -16,12 +16,12 @@
 
 package org.apache.roller.planet.business;
 
-import java.util.Set;
 import junit.framework.TestCase;
-import org.apache.roller.planet.TestUtils;
 import org.apache.roller.planet.pojos.Planet;
 import org.apache.roller.planet.pojos.PlanetGroup;
 import org.apache.roller.planet.pojos.Subscription;
+import org.apache.roller.weblogger.TestUtils;
+import org.apache.roller.weblogger.business.WebloggerFactory;
 
 
 /**
@@ -37,9 +37,6 @@ public class SubscriptionFunctionalTests extends TestCase {
     
     
     protected void setUp() throws Exception {
-        // setup planet
-        TestUtils.setupPlanet();
-
         testPlanet = TestUtils.setupPlanet("subFuncTest");
         testGroup1 = TestUtils.setupGroup(testPlanet, "subFuncTest1");
         testGroup2 = TestUtils.setupGroup(testPlanet, "subFuncTest2");
@@ -59,7 +56,7 @@ public class SubscriptionFunctionalTests extends TestCase {
     
     public void testSubscriptionLookups() throws Exception {
         
-        PlanetManager mgr = PlanetFactory.getPlanet().getPlanetManager();
+        PlanetManager mgr = WebloggerFactory.getWeblogger().getPlanetManager();
         
         // by id
         Subscription sub = mgr.getSubscriptionById(testSub1.getId());
@@ -79,7 +76,7 @@ public class SubscriptionFunctionalTests extends TestCase {
     
     public void testSubscriptionGroupCRUD() throws Exception {
         
-        PlanetManager planet = PlanetFactory.getPlanet().getPlanetManager();
+        PlanetManager planet = WebloggerFactory.getWeblogger().getPlanetManager();
         
         // retrieve subscriptions and add to group
         Subscription sub1 = planet.getSubscriptionById(testSub1.getId());

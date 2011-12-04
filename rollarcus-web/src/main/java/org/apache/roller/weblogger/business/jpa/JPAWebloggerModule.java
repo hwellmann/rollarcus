@@ -59,7 +59,6 @@ public class JPAWebloggerModule implements Module {
         binder.bind(Weblogger.class).to(JPAWebloggerImpl.class);
         
         binder.bind(JPAPersistenceStrategy.class);       
-        binder.bind(org.apache.roller.weblogger.planet.business.jpa.JPARollerPlanetPersistenceStrategy.class);
         
         binder.bind(AutoPingManager.class).to(     JPAAutoPingManagerImpl.class);   
         binder.bind(BookmarkManager.class).to(     JPABookmarkManagerImpl.class);  

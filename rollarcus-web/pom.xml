@@ -321,6 +321,7 @@
 					<excludes>
 						<exclude>**/TestUtils.java</exclude>
 						<exclude>**/TestTask.java</exclude>
+						<exclude>org/apache/roller/planet/*.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

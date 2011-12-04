@@ -26,7 +26,6 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
-import org.apache.roller.planet.business.PlanetFactory;
 import org.apache.roller.planet.business.PlanetManager;
 import org.apache.roller.planet.pojos.Planet;
 import org.apache.roller.planet.pojos.PlanetGroup;
@@ -35,7 +34,7 @@ import org.apache.roller.weblogger.business.URLStrategy;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.config.WebloggerConfig;
 import org.apache.roller.weblogger.pojos.ThemeTemplate;
-import org.apache.roller.weblogger.pojos.Weblog;
+import org.apache.roller.weblogger.pojos.Weblog; 
 import org.apache.roller.weblogger.ui.rendering.pagers.Pager;
 import org.apache.roller.weblogger.ui.rendering.pagers.PlanetEntriesPager;
 import org.apache.roller.weblogger.ui.rendering.util.WeblogPageRequest;
@@ -56,8 +55,6 @@ public class PlanetModel implements Model {
     private Weblog         weblog = null;
     
     private URLStrategy    urlStrategy = null;
-    private org.apache.roller.planet.business.URLStrategy planetUrlStrategy = null;
-
     
     public String getModelName() {
         return "planet";
@@ -84,8 +81,6 @@ public class PlanetModel implements Model {
         if(urlStrategy == null) {
             urlStrategy = WebloggerFactory.getWeblogger().getUrlStrategy();
         }
-        
-        planetUrlStrategy = PlanetFactory.getPlanet().getURLStrategy();
         
         // extract weblog object
         weblog = weblogRequest.getWeblog();
@@ -185,7 +180,7 @@ public class PlanetModel implements Model {
     public List getRankedSubscriptions(String groupHandle, int sinceDays, int length) {
         List list = new ArrayList();
         try {
-            PlanetManager planetManager = PlanetFactory.getPlanet().getPlanetManager();
+            PlanetManager planetManager = WebloggerFactory.getWeblogger().getPlanetManager();
             Planet defaultPlanet = planetManager.getPlanet(DEFAULT_PLANET_HANDLE);
             PlanetGroup planetGroup = planetManager.getGroup(defaultPlanet, groupHandle);
             List subs = planetManager.getTopSubscriptions(planetGroup, 0, length);
@@ -208,7 +203,7 @@ public class PlanetModel implements Model {
     public List<PlanetGroup> getGroups() {
         List list = new ArrayList<PlanetGroup>();
         try {
-            PlanetManager planetManager = PlanetFactory.getPlanet().getPlanetManager();
+            PlanetManager planetManager = WebloggerFactory.getWeblogger().getPlanetManager();
             Planet defaultPlanet = planetManager.getPlanet(DEFAULT_PLANET_HANDLE);
             Set<PlanetGroup> groups = (Set<PlanetGroup>)defaultPlanet.getGroups();
             for (PlanetGroup group : groups) {
@@ -230,7 +225,7 @@ public class PlanetModel implements Model {
     public PlanetGroup getGroup(String groupHandle) {
         PlanetGroup group = null;
         try {
-            PlanetManager planetManager = PlanetFactory.getPlanet().getPlanetManager();
+            PlanetManager planetManager = WebloggerFactory.getWeblogger().getPlanetManager();
             Planet defaultPlanet = planetManager.getPlanet(DEFAULT_PLANET_HANDLE);            
             // TODO needs pojo wrapping from planet
             group = planetManager.getGroup(defaultPlanet, groupHandle);            
@@ -242,16 +237,16 @@ public class PlanetModel implements Model {
     
     
     public String getPlanetURL() {
-        return planetUrlStrategy.getPlanetURL("ignored");
+        return WebloggerFactory.getWeblogger().getUrlStrategy().getPlanetURL("ignored");
     }
 
     
     public String getPlanetGroupURL(String group, int pageNum) {
-        return planetUrlStrategy.getPlanetGroupURL("ignored", group, pageNum);
+        return WebloggerFactory.getWeblogger().getUrlStrategy().getPlanetGroupURL("ignored", group, pageNum);
     }
     
     
     public String getPlanetFeedURL(String group, String format) {
-        return planetUrlStrategy.getPlanetGroupFeedURL("ignored", group, format);
+        return WebloggerFactory.getWeblogger().getUrlStrategy().getPlanetGroupFeedURL("ignored", group, format);
     }
 }

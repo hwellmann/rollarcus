@@ -27,11 +27,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.RollerException;
-import org.apache.roller.planet.business.GuicePlanetProvider;
-import org.apache.roller.planet.business.PlanetFactory;
 import org.apache.roller.planet.business.PlanetManager;
-import org.apache.roller.planet.business.PlanetProvider;
-import org.apache.roller.planet.business.startup.PlanetStartup;
 import org.apache.roller.planet.pojos.Planet;
 import org.apache.roller.planet.pojos.PlanetGroup;
 import org.apache.roller.planet.pojos.Subscription;
@@ -138,7 +134,7 @@ public class SyncWebsitesTask extends RollerTaskWithLeasing {
         log.info("Syncing local weblogs with planet subscriptions list");
         
         try {
-            PlanetManager pmgr = PlanetFactory.getPlanet().getPlanetManager();
+            PlanetManager pmgr = WebloggerFactory.getWeblogger().getPlanetManager();
             
             // first, make sure there is an "all" pmgr group
             Planet planetObject = pmgr.getPlanetById("zzz_default_planet_zzz");
@@ -149,7 +145,7 @@ public class SyncWebsitesTask extends RollerTaskWithLeasing {
                 group.setHandle("all");
                 group.setTitle("all");
                 pmgr.saveGroup(group);
-                PlanetFactory.getPlanet().flush();
+                WebloggerFactory.getWeblogger().flush();
             }
             
             // walk through all enable weblogs and add/update subs as needed
@@ -193,7 +189,7 @@ public class SyncWebsitesTask extends RollerTaskWithLeasing {
                 }
                 
                 // save as we go
-                PlanetFactory.getPlanet().flush();
+                WebloggerFactory.getWeblogger().flush();
             }
             
             // new subs added, existing subs updated, now delete old subs
@@ -223,34 +219,15 @@ public class SyncWebsitesTask extends RollerTaskWithLeasing {
             
             // all done, lets save
             pmgr.saveGroup(group);
-            PlanetFactory.getPlanet().flush();
+            WebloggerFactory.getWeblogger().flush();
             
         } catch (RollerException e) {
             log.error("ERROR refreshing entries", e);
         } finally {
             // don't forget to release
             WebloggerFactory.getWeblogger().release();
-            PlanetFactory.getPlanet().release();
+            WebloggerFactory.getWeblogger().release();
         }
-    }
-    
-    
-    /** 
-     * Task may be run from the command line 
-     */
-    public static void main(String[] args) throws Exception {
-        
-        // before we can do anything we need to bootstrap the planet backend
-        PlanetStartup.prepare();
-        
-        // we need to use our own planet provider for integration
-        String guiceModule = WebloggerConfig.getProperty("planet.aggregator.guice.module");
-        PlanetProvider provider = new GuicePlanetProvider(guiceModule);
-        PlanetFactory.bootstrap(provider);
-        
-        SyncWebsitesTask task = new SyncWebsitesTask();
-        task.init(); // use default name
-        task.run();
     }
     
 }

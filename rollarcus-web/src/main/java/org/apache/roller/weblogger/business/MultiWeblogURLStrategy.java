@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import org.apache.roller.planet.business.PlanetManager;
 import org.apache.roller.weblogger.config.WebloggerConfig;
 import org.apache.roller.weblogger.config.WebloggerRuntimeConfig;
 import org.apache.roller.weblogger.pojos.Weblog;
@@ -453,7 +454,85 @@ public class MultiWeblogURLStrategy extends AbstractURLStrategy {
     public String getOAuthAccessTokenURL() {
         return WebloggerRuntimeConfig.getAbsoluteContextURL() + "/roller-services/oauth/accessToken";
     }
+   
+	    
+    /**
+     * Get URL configured for Planet.
+     * @param planet There's only one planet in Roller, so this is ignored.
+     */
+    public String getPlanetURL(String planet) {
+        
+        StringBuffer url = new StringBuffer();
+        
+        PlanetManager mgr = WebloggerFactory.getWeblogger().getPlanetManager();
+        
+        url.append(WebloggerRuntimeConfig.getProperty("site.absoluteurl"));
+        
+        return url.toString();
+    }
     
+    
+    /**
+     * Get URL configured for Planet.
+     * @param planet There's only one planet in Roller, so this is ignored.
+     * @param group   Handle of planet group (or null for default group).
+     * @param pageNum Page number of results to return.
+     */
+    public String getPlanetGroupURL(String planet, String group, int pageNum) {
+
+        StringBuffer url = new StringBuffer();
+        String sep = "?";
+        
+        url.append(getPlanetURL(planet));
+        if (group != null) {
+            url.append(sep);
+            url.append("group=").append(group);
+            sep = "&";
+        }
+        
+        if (pageNum > 0) {
+            url.append(sep);
+            url.append("page=");
+            url.append(pageNum);
+            sep = "&";
+        }
+        
+        return url.toString();
+    }
+    
+    
+    /**
+     * Get URL of planet group's newsfeed.
+     * @param planet There's only one planet in Roller, so this is ignored.
+     * @param group Handle of planet group (or null for default group).
+     * @param feed  Feed format to be returned (ignored, currently only RSS is supported).
+     */
+    public String getPlanetGroupFeedURL(String planet, String group, String format) {
+        
+        StringBuffer url = new StringBuffer();
+        String sep = "?";
+        
+        url.append(WebloggerRuntimeConfig.getAbsoluteContextURL());
+        url.append("planetrss");
+
+        if (group != null) {
+            url.append(sep);
+            url.append("group=").append(group);
+            sep = "&";
+        }
+        
+        return url.toString();
+    }
+    
+    
+    /**
+     * Currently, Roller doesn't support OPML so this returns null.
+     * @param planet There's only one planet in Roller, so this is ignored.
+     * @param group Handle of planet group.
+     */
+    public String getPlanetGroupOpmlURL(String planet, String group) {
+        return null;
+    }
 }
 
 

@@ -19,9 +19,9 @@ package org.apache.roller.planet.business;
 import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.roller.planet.TestUtils;
 import org.apache.roller.planet.business.fetcher.FeedFetcher;
 import org.apache.roller.planet.pojos.Subscription;
+import org.apache.roller.weblogger.business.WebloggerFactory;
 
 
 /**
@@ -35,8 +35,6 @@ public class RomeFeedFetcherTest extends TestCase {
     
     
     protected void setUp() throws Exception {
-        // setup planet
-        TestUtils.setupPlanet();
     }
     
     
@@ -46,7 +44,7 @@ public class RomeFeedFetcherTest extends TestCase {
     
     public void testFetchFeed() throws Exception {
         
-        FeedFetcher feedFetcher = PlanetFactory.getPlanet().getFeedFetcher();
+        FeedFetcher feedFetcher = WebloggerFactory.getWeblogger().getFeedFetcher();
 
         // fetch feed
         Subscription sub = feedFetcher.fetchSubscription(feed_url);
@@ -61,7 +59,7 @@ public class RomeFeedFetcherTest extends TestCase {
     
     public void testFetchFeedConditionally() throws Exception {
         
-        FeedFetcher feedFetcher = PlanetFactory.getPlanet().getFeedFetcher();
+        FeedFetcher feedFetcher = WebloggerFactory.getWeblogger().getFeedFetcher();
 
         // fetch feed
         Subscription sub = feedFetcher.fetchSubscription(feed_url);

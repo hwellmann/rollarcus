@@ -36,15 +36,11 @@ import org.springframework.security.providers.rememberme.RememberMeAuthenticatio
 import org.springframework.security.ui.webapp.AuthenticationProcessingFilterEntryPoint;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.roller.planet.business.GuicePlanetProvider;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.BootstrapException;
 import org.apache.roller.weblogger.business.startup.StartupException;
 import org.apache.roller.weblogger.config.WebloggerConfig;
 import org.apache.roller.weblogger.business.WebloggerFactory;
-import org.apache.roller.planet.business.PlanetFactory;
-import org.apache.roller.planet.business.PlanetProvider;
-import org.apache.roller.planet.business.startup.PlanetStartup;
 import org.apache.roller.weblogger.business.startup.WebloggerStartup;
 import org.apache.roller.weblogger.ui.core.plugins.UIPluginManager;
 import org.apache.roller.weblogger.ui.core.plugins.UIPluginManagerImpl;
@@ -164,34 +160,6 @@ public class RollerContext extends ContextLoaderListener
                 log.fatal("Roller Weblogger bootstrap failed", ex);
             } catch (WebloggerException ex) {
                 log.fatal("Roller Weblogger initialization failed", ex);
-            }
-            
-            // Initialize Planet if necessary
-            if (WebloggerFactory.isBootstrapped()) {
-                if (WebloggerConfig.getBooleanProperty("planet.aggregator.enabled")) {
-                    
-                    // Now prepare the core services of planet so we can bootstrap it
-                    try {
-                        PlanetStartup.prepare();
-                    } catch (Throwable ex) {
-                        log.fatal("Roller Planet startup failed during app preparation", ex);
-                        return;
-                    }
-        
-                    try {
-                        // trigger planet bootstrapping process
-                        // we need to use our own planet provider for integration
-                        String guiceModule = WebloggerConfig.getProperty("planet.aggregator.guice.module");
-                        PlanetProvider provider = new GuicePlanetProvider(guiceModule);
-                        PlanetFactory.bootstrap(provider);
-                        
-                        // and now initialize planet
-                        PlanetFactory.getPlanet().initialize();
-                        
-                    } catch (Throwable t) {
-                        log.fatal("Roller Planet initialization failed", t);
-                    }
-                }
             }
         }
         

@@ -20,11 +20,12 @@ import java.util.Date;
 import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.roller.planet.TestUtils;
 import org.apache.roller.planet.pojos.Planet;
 import org.apache.roller.planet.pojos.SubscriptionEntry;
 import org.apache.roller.planet.pojos.PlanetGroup;
 import org.apache.roller.planet.pojos.Subscription;
+import org.apache.roller.weblogger.TestUtils;
+import org.apache.roller.weblogger.business.WebloggerFactory;
 
 
 /**
@@ -44,8 +45,6 @@ public class EntryFunctionalTests extends TestCase {
     
     
     protected void setUp() throws Exception {
-        // setup planet
-        TestUtils.setupPlanet();
 
         log.info("ENTERED");
         
@@ -64,8 +63,8 @@ public class EntryFunctionalTests extends TestCase {
         testGroup1.getSubscriptions().add(testSub2);
         testSub2.getGroups().add(testGroup1);
         
-        PlanetFactory.getPlanet().getPlanetManager().saveGroup(testGroup1);
-        PlanetFactory.getPlanet().flush();
+        WebloggerFactory.getWeblogger().getPlanetManager().saveGroup(testGroup1);
+        WebloggerFactory.getWeblogger().flush();
         
         log.info("EXITED");
     }
@@ -85,7 +84,7 @@ public class EntryFunctionalTests extends TestCase {
     
     public void testEntryLookups() throws Exception {
         
-        PlanetManager mgr = PlanetFactory.getPlanet().getPlanetManager();
+        PlanetManager mgr = WebloggerFactory.getWeblogger().getPlanetManager();
         
         // by id
         SubscriptionEntry entry = mgr.getEntryById(testEntry1.getId());
@@ -110,7 +109,7 @@ public class EntryFunctionalTests extends TestCase {
     
     public void testDeleteEntries() throws Exception {
         
-        PlanetManager mgr = PlanetFactory.getPlanet().getPlanetManager();
+        PlanetManager mgr = WebloggerFactory.getWeblogger().getPlanetManager();
         Subscription sub = mgr.getSubscriptionById(testSub2.getId());
         
         // make sure entries are there

@@ -19,11 +19,11 @@ package org.apache.roller.planet.business;
 import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.roller.planet.TestUtils;
-import org.apache.roller.planet.business.fetcher.FeedFetcher;
 import org.apache.roller.planet.business.updater.FeedUpdater;
 import org.apache.roller.planet.business.updater.SingleThreadedFeedUpdater;
 import org.apache.roller.planet.pojos.Subscription;
+import org.apache.roller.weblogger.TestUtils;
+import org.apache.roller.weblogger.business.WebloggerFactory;
 
 
 /**
@@ -39,16 +39,13 @@ public class SingleThreadedFeedUpdaterTest extends TestCase {
     
     
     protected void setUp() throws Exception {
-        // setup planet
-        TestUtils.setupPlanet();
-        
         // add test subscription
-        PlanetManager mgr = PlanetFactory.getPlanet().getPlanetManager();
+        PlanetManager mgr = WebloggerFactory.getWeblogger().getPlanetManager();
         testSub = new Subscription();
         testSub.setTitle(feed_url);
         testSub.setFeedURL(feed_url);
         mgr.saveSubscription(testSub);
-        PlanetFactory.getPlanet().flush();
+        WebloggerFactory.getWeblogger().flush();
     }
     
     
@@ -59,7 +56,7 @@ public class SingleThreadedFeedUpdaterTest extends TestCase {
     
     public void testUpdateSubscription() throws Exception {
         
-        PlanetManager mgr = PlanetFactory.getPlanet().getPlanetManager();
+        PlanetManager mgr = WebloggerFactory.getWeblogger().getPlanetManager();
         Subscription sub = mgr.getSubscriptionById(testSub.getId());
         
         // update the subscription

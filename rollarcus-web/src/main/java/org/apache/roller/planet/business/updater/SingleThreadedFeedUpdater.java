@@ -24,14 +24,14 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.planet.PlanetException;
-import org.apache.roller.planet.business.PlanetFactory;
 import org.apache.roller.planet.business.PlanetManager;
 import org.apache.roller.planet.business.fetcher.FeedFetcher;
 import org.apache.roller.planet.business.fetcher.FetcherException;
-import org.apache.roller.planet.config.PlanetRuntimeConfig;
 import org.apache.roller.planet.pojos.PlanetGroup;
 import org.apache.roller.planet.pojos.Subscription;
 import org.apache.roller.planet.pojos.SubscriptionEntry;
+import org.apache.roller.weblogger.business.WebloggerFactory;
+import org.apache.roller.weblogger.config.WebloggerConfig;
 
 
 /**
@@ -66,7 +66,7 @@ public class SingleThreadedFeedUpdater implements FeedUpdater {
         try {
             // fetch the latest version of the subscription
             log.debug("Getting fetcher");
-            FeedFetcher fetcher = PlanetFactory.getPlanet().getFeedFetcher();
+            FeedFetcher fetcher = WebloggerFactory.getWeblogger().getFeedFetcher();
             log.debug("Using fetcher class: " + fetcher.getClass().getName());
             updatedSub = fetcher.fetchSubscription(sub.getFeedURL(), sub.getLastUpdated());
             
@@ -98,7 +98,7 @@ public class SingleThreadedFeedUpdater implements FeedUpdater {
         Set<SubscriptionEntry> newEntries = updatedSub.getEntries();
         log.debug("newEntries.size() = " + newEntries.size());
         if (newEntries.size() > 0) try {
-            PlanetManager pmgr = PlanetFactory.getPlanet().getPlanetManager();
+            PlanetManager pmgr = WebloggerFactory.getWeblogger().getPlanetManager();
             
             // clear out old entries
             pmgr.deleteEntries(sub);
@@ -109,12 +109,12 @@ public class SingleThreadedFeedUpdater implements FeedUpdater {
             
             // save and flush
             pmgr.saveSubscription(sub);
-            PlanetFactory.getPlanet().flush();
+            WebloggerFactory.getWeblogger().flush();
 
             log.debug("Added entries");
             entries += newEntries.size();            
 
-        } catch(PlanetException ex) {
+        } catch (Exception ex) {
             throw new UpdaterException("Error persisting updated subscription", ex);
         }
         
@@ -138,7 +138,7 @@ public class SingleThreadedFeedUpdater implements FeedUpdater {
         
         try {
             // update all subscriptions in the system
-            PlanetManager pmgr = PlanetFactory.getPlanet().getPlanetManager();
+            PlanetManager pmgr = WebloggerFactory.getWeblogger().getPlanetManager();
             updateSubscriptions(pmgr.getSubscriptions());
         } catch (PlanetException ex) {
             throw new UpdaterException("Error getting subscriptions list", ex);
@@ -176,7 +176,7 @@ public class SingleThreadedFeedUpdater implements FeedUpdater {
     // convenience method which handles updating any arbitrary collection of subs
     private void updateSubscriptions(Collection<Subscription> subscriptions) {
         
-        PlanetManager pmgr = PlanetFactory.getPlanet().getPlanetManager();
+        PlanetManager pmgr = WebloggerFactory.getWeblogger().getPlanetManager();
         
         Iterator subs = subscriptions.iterator();
         while (subs.hasNext()) {
@@ -223,8 +223,8 @@ public class SingleThreadedFeedUpdater implements FeedUpdater {
     
     // upate proxy settings for jvm based on planet configuration
     private void updateProxySettings() {
-        String proxyHost = PlanetRuntimeConfig.getProperty("site.proxyhost");
-        int proxyPort = PlanetRuntimeConfig.getIntProperty("site.proxyport");
+        String proxyHost = WebloggerConfig.getProperty("site.proxyhost");
+        int proxyPort = WebloggerConfig.getIntProperty("site.proxyport");
         if (proxyHost != null && proxyPort > 0) {
             System.setProperty("proxySet", "true");
             System.setProperty("http.proxyHost", proxyHost);

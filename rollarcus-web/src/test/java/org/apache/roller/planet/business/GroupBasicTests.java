@@ -16,11 +16,11 @@
 
 package org.apache.roller.planet.business;
 
-import java.util.List;
 import junit.framework.TestCase;
-import org.apache.roller.planet.TestUtils;
 import org.apache.roller.planet.pojos.Planet;
 import org.apache.roller.planet.pojos.PlanetGroup;
+import org.apache.roller.weblogger.TestUtils;
+import org.apache.roller.weblogger.business.WebloggerFactory;
 
 
 /**
@@ -32,9 +32,6 @@ public class GroupBasicTests extends TestCase {
     
     
     protected void setUp() throws Exception {
-        // setup planet
-        TestUtils.setupPlanet();
-
         testPlanet = TestUtils.setupPlanet("groupBasicTest");
     }
     
@@ -46,7 +43,7 @@ public class GroupBasicTests extends TestCase {
     
     public void testGroupCRUD() throws Exception {
         
-        PlanetManager mgr = PlanetFactory.getPlanet().getPlanetManager();
+        PlanetManager mgr = WebloggerFactory.getWeblogger().getPlanetManager();
         
         PlanetGroup testGroup = new PlanetGroup();
         testGroup.setDescription("test_group_desc");

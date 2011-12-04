@@ -19,6 +19,8 @@ package org.apache.roller.weblogger.business.jpa;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.roller.planet.business.PlanetManager;
+import org.apache.roller.planet.business.fetcher.FeedFetcher;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.BookmarkManager;
 import org.apache.roller.weblogger.business.FileContentManager;
@@ -123,4 +125,12 @@ public class JPAWebloggerImpl extends WebloggerImpl {
         // then let parent do its thing
         super.shutdown();
     }
+
+	public PlanetManager getPlanetManager() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	public FeedFetcher getFeedFetcher() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }
