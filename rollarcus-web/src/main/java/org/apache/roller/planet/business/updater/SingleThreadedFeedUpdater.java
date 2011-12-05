@@ -23,13 +23,13 @@ import java.util.Iterator;
 import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.roller.planet.PlanetException;
 import org.apache.roller.planet.business.PlanetManager;
 import org.apache.roller.planet.business.fetcher.FeedFetcher;
 import org.apache.roller.planet.business.fetcher.FetcherException;
 import org.apache.roller.planet.pojos.PlanetGroup;
 import org.apache.roller.planet.pojos.Subscription;
 import org.apache.roller.planet.pojos.SubscriptionEntry;
+import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.config.WebloggerConfig;
 
@@ -140,7 +140,7 @@ public class SingleThreadedFeedUpdater implements FeedUpdater {
             // update all subscriptions in the system
             PlanetManager pmgr = WebloggerFactory.getWeblogger().getPlanetManager();
             updateSubscriptions(pmgr.getSubscriptions());
-        } catch (PlanetException ex) {
+        } catch (WebloggerException ex) {
             throw new UpdaterException("Error getting subscriptions list", ex);
         }
         
@@ -185,7 +185,7 @@ public class SingleThreadedFeedUpdater implements FeedUpdater {
             try {
                 // reattach sub.  sub gets detached as we iterate
                 sub = pmgr.getSubscriptionById(sub.getId());
-            } catch (PlanetException ex) {
+            } catch (WebloggerException ex) {
                 log.warn("Subscription went missing while doing update: "+ex.getMessage());
             }
             

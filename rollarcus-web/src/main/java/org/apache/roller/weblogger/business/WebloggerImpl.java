@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.roller.planet.business.PlanetManager;
+import org.apache.roller.planet.business.fetcher.FeedFetcher;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.pings.AutoPingManager;
 import org.apache.roller.weblogger.business.pings.PingQueueManager;
@@ -64,6 +66,8 @@ public abstract class WebloggerImpl implements Weblogger {
     private final WeblogManager        weblogManager;
     private final WeblogEntryManager   weblogEntryManager;
     private final OAuthManager         oauthManager;
+	private final PlanetManager        planetManager;
+	private final FeedFetcher          feedFetcher;
     
     // url strategy
     private final URLStrategy          urlStrategy;
@@ -93,6 +97,8 @@ public abstract class WebloggerImpl implements Weblogger {
         WeblogManager        weblogManager,
         WeblogEntryManager   weblogEntryManager,
         OAuthManager         oauthManager,
+		PlanetManager        planetManager,
+        FeedFetcher          feedFetcher,
         URLStrategy          urlStrategy) throws WebloggerException { 
                 
         this.autoPingManager     = autoPingManager;
@@ -112,6 +118,8 @@ public abstract class WebloggerImpl implements Weblogger {
         this.weblogManager       = weblogManager;
         this.weblogEntryManager  = weblogEntryManager;
         this.oauthManager        = oauthManager;
+		this.planetManager       = planetManager;
+		this.feedFetcher         = feedFetcher;
         this.urlStrategy         = urlStrategy;
         
         Properties props = new Properties();
@@ -295,6 +303,13 @@ public abstract class WebloggerImpl implements Weblogger {
         return oauthManager;
     }
 
+	public PlanetManager getPlanetManager() {
+		return planetManager;
+	}
+
+	public FeedFetcher getFeedFetcher() {
+		return feedFetcher;
+	}
 
     /**
      * @inheritDoc

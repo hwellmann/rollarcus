@@ -80,6 +80,8 @@ public class JPAWebloggerImpl extends WebloggerImpl {
         WeblogManager        weblogManager,
         WeblogEntryManager   weblogEntryManager,
         OAuthManager         oauthManager,
+		PlanetManager        planetManager,
+		FeedFetcher          feedFetcher,
         URLStrategy          urlStrategy) throws WebloggerException {
         
         super(
@@ -100,6 +102,8 @@ public class JPAWebloggerImpl extends WebloggerImpl {
             weblogManager,
             weblogEntryManager,
             oauthManager,
+            planetManager,
+			feedFetcher,
             urlStrategy);
         
         this.strategy = strategy;
@@ -125,12 +129,4 @@ public class JPAWebloggerImpl extends WebloggerImpl {
         // then let parent do its thing
         super.shutdown();
     }
-
-	public PlanetManager getPlanetManager() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	public FeedFetcher getFeedFetcher() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
 }

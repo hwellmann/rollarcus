@@ -22,6 +22,9 @@ import com.google.inject.Binder;
 import com.google.inject.Module;
 import net.oauth.OAuthValidator;
 import net.oauth.SimpleOAuthValidator;
+import org.apache.roller.planet.business.PlanetManager;
+import org.apache.roller.planet.business.fetcher.FeedFetcher;
+import org.apache.roller.planet.jpa.JPAPlanetManagerImpl;
 import org.apache.roller.weblogger.business.BookmarkManager;
 import org.apache.roller.weblogger.business.FileContentManager;
 import org.apache.roller.weblogger.business.FileContentManagerImpl;
@@ -47,6 +50,7 @@ import org.apache.roller.weblogger.business.search.IndexManager;
 import org.apache.roller.weblogger.business.search.IndexManagerImpl;
 import org.apache.roller.weblogger.business.themes.ThemeManager;
 import org.apache.roller.weblogger.business.themes.ThemeManagerImpl;
+import org.apache.roller.weblogger.planet.business.WebloggerRomeFeedFetcher;
 
 
 /**
@@ -70,6 +74,8 @@ public class JPAWebloggerModule implements Module {
         binder.bind(UserManager.class).to(         JPAUserManagerImpl.class);   
         binder.bind(WeblogManager.class).to(       JPAWeblogManagerImpl.class);   
         binder.bind(WeblogEntryManager.class).to(  JPAWeblogEntryManagerImpl.class);   
+        binder.bind(PlanetManager.class).to(       JPAPlanetManagerImpl.class);
+        binder.bind(FeedFetcher.class).to(         WebloggerRomeFeedFetcher.class);
         binder.bind(OAuthManager.class).to(        JPAOAuthManagerImpl.class);
 
         binder.bind(OAuthValidator.class).to(      SimpleOAuthValidator.class);

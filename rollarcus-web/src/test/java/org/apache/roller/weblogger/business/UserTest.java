@@ -19,6 +19,7 @@
 package org.apache.roller.weblogger.business;
 
 import java.util.List;
+import java.util.UUID;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -65,7 +66,7 @@ public class UserTest extends TestCase {
         User user = null;
         
         User testUser = new User();
-        testUser.setUserName("testUser");
+        testUser.setUserName("testUser" + UUID.randomUUID());
         testUser.setPassword("password");
         testUser.setScreenName("Test User Screen Name");
         testUser.setFullName("Test User");
@@ -123,7 +124,7 @@ public class UserTest extends TestCase {
         User user = null;
         
         // add test user
-        User testUser = TestUtils.setupUser("userTestUser");
+        User testUser = TestUtils.setupUser(UUID.randomUUID() + "userTestUser");
         TestUtils.endSession(true);
         
         // lookup by username
@@ -177,7 +178,7 @@ public class UserTest extends TestCase {
         User user = null;
         
         // add test user
-        User testUser = TestUtils.setupUser("roleTestUser");
+        User testUser = TestUtils.setupUser(UUID.randomUUID() + "roleTestUser");
         TestUtils.endSession(true);
         
         user = mgr.getUserByUserName(testUser.getUserName());
