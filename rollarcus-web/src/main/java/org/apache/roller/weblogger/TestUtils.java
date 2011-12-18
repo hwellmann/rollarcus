@@ -23,6 +23,8 @@
 
 package org.apache.roller.weblogger;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.roller.planet.PlanetException;
 import org.apache.roller.planet.business.PlanetManager;
 import org.apache.roller.planet.pojos.Planet;
@@ -52,7 +54,8 @@ import org.apache.roller.weblogger.pojos.WeblogPermission;
  * Utility class for unit test classes.
  */
 public final class TestUtils {
-    
+   
+	public static Log log = LogFactory.getLog(TestUtils.class);
     
     public static void setupWeblogger() throws Exception {
         
@@ -65,7 +68,13 @@ public final class TestUtils {
             
             // always initialize the properties manager and flush
             WebloggerFactory.getWeblogger().initialize();
+
         }
+
+		if (WebloggerFactory.getWeblogger().getUserManager().getUserCount() > 0) {
+			log.error("*** ERROR ** EXISTING USER(S)");
+			throw new IllegalStateException("More than 0 users");
+		}
     }
     
     
@@ -103,7 +112,7 @@ public final class TestUtils {
         testUser.setPassword("password");
         testUser.setScreenName("Test User Screen Name");
         testUser.setFullName("Test User");
-        testUser.setEmailAddress("TestUser@dev.null");
+        testUser.setEmailAddress(username + "@dev.null");
         testUser.setLocale("en_US");
         testUser.setTimeZone("America/Los_Angeles");
         testUser.setDateCreated(new java.util.Date());

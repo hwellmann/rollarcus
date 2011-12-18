@@ -20,6 +20,7 @@ package org.apache.roller.weblogger.business;
 
 import java.util.List;
 import java.util.UUID;
+import junit.framework.Assert;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -65,12 +66,14 @@ public class UserTest extends TestCase {
         UserManager mgr = WebloggerFactory.getWeblogger().getUserManager();
         User user = null;
         
+		Assert.assertEquals(0, mgr.getUserCount());
+
         User testUser = new User();
-        testUser.setUserName("testUser" + UUID.randomUUID());
+        testUser.setUserName(UUID.randomUUID() + "testUser");
         testUser.setPassword("password");
         testUser.setScreenName("Test User Screen Name");
         testUser.setFullName("Test User");
-        testUser.setEmailAddress("TestUser@dev.null");
+        testUser.setEmailAddress(UUID.randomUUID() + "TestUser@dev.null");
         testUser.setLocale("en_US");
         testUser.setTimeZone("America/Los_Angeles");
         testUser.setDateCreated(new java.util.Date());
@@ -120,9 +123,12 @@ public class UserTest extends TestCase {
      */
     public void testUserLookups() throws Exception {
         
+		
         UserManager mgr = WebloggerFactory.getWeblogger().getUserManager();
         User user = null;
         
+		Assert.assertEquals(0, mgr.getUserCount());
+
         // add test user
         User testUser = TestUtils.setupUser(UUID.randomUUID() + "userTestUser");
         TestUtils.endSession(true);
@@ -176,6 +182,8 @@ public class UserTest extends TestCase {
         
         UserManager mgr = WebloggerFactory.getWeblogger().getUserManager();
         User user = null;
+
+		Assert.assertEquals(0, mgr.getUserCount());
         
         // add test user
         User testUser = TestUtils.setupUser(UUID.randomUUID() + "roleTestUser");

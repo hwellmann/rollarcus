@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.persistence.Query;
-import org.apache.roller.weblogger.business.Weblogger;
 import org.apache.roller.weblogger.config.WebloggerConfig;
 
 
@@ -92,11 +91,11 @@ public class JPAUserManagerImpl implements UserManager {
         if(newUser == null)
             throw new WebloggerException("cannot add null user");
         
-        // TODO BACKEND: we must do this in a better fashion, like getUserCnt()?
         boolean adminUser = false;
-        List existingUsers = this.getUsers(Boolean.TRUE, null, null, 0, 1);
         boolean firstUserAdmin = WebloggerConfig.getBooleanProperty("users.firstUserAdmin");
-        if (existingUsers.size() == 0 && firstUserAdmin) {
+        if (getUserCount() == 0 && firstUserAdmin) {
+			log.debug("Setting up first user as global admin");
+
             // Make first user an admin
             adminUser = true;
 

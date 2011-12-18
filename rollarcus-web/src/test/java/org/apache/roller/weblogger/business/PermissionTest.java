@@ -26,8 +26,6 @@ import junit.framework.TestSuite;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.TestUtils;
-import org.apache.roller.weblogger.business.WebloggerFactory;
-import org.apache.roller.weblogger.business.UserManager;
 import org.apache.roller.weblogger.pojos.User;
 import org.apache.roller.weblogger.pojos.Weblog;
 import org.apache.roller.weblogger.pojos.WeblogPermission;
@@ -313,14 +311,19 @@ public class PermissionTest extends TestCase {
         
         // we need a second user for this test
         User adminUser = TestUtils.setupUser("adminUser");
-        umgr.grantRole("admin", adminUser);
-        TestUtils.endSession(true);
+		try {
+			umgr.grantRole("admin", adminUser);
+			TestUtils.endSession(true);
 
-        // because adminUser is a global admin, they should have POST perm
-        WeblogPermission perm2 = 
-            new WeblogPermission(testWeblog, testUser, WeblogPermission.POST);
-        assertTrue(umgr.checkPermission(perm, testUser));
-        
+			// because adminUser is a global admin, they should have POST perm
+			WeblogPermission perm2 = 
+				new WeblogPermission(testWeblog, testUser, WeblogPermission.POST);
+			assertTrue(umgr.checkPermission(perm, testUser));
+
+		} finally {
+			TestUtils.teardownUser("adminUser");			
+		}
+			
         log.info("END");
     }
 }

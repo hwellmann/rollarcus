@@ -73,94 +73,97 @@ public class MediaFileTest extends TestCase {
     public void testCreateMediaFileDirectoryByPath() throws Exception {
         User testUser = null;
         Weblog testWeblog = null;
+		try {
 
-        // TODO: Setup code, to be moved to setUp method.
-        System.out.println("Before setting up weblogger");
-        // setup weblogger
-        try {
-            testUser = TestUtils.setupUser("mediaFileTestUser8");
-            testWeblog = TestUtils.setupWeblog("mediaFileTestWeblog8", testUser);
-            TestUtils.endSession(true);
-        } catch (Exception ex) {
-            log.error(ex);
-            throw new Exception("Test setup failed", ex);
-        }
+			// TODO: Setup code, to be moved to setUp method.
+			System.out.println("Before setting up weblogger");
+			// setup weblogger
+			try {
+				testUser = TestUtils.setupUser("mediaFileTestUser8");
+				testWeblog = TestUtils.setupWeblog("mediaFileTestWeblog8", testUser);
+				TestUtils.endSession(true);
+			} catch (Exception ex) {
+				log.error(ex);
+				throw new Exception("Test setup failed", ex);
+			}
 
-        /**
-         * Real test starts here.
-         */
-        MediaFileManager mfMgr = WebloggerFactory.getWeblogger().getMediaFileManager();
+			/**
+			 * Real test starts here.
+			 */
+			MediaFileManager mfMgr = WebloggerFactory.getWeblogger().getMediaFileManager();
 
-        testWeblog = TestUtils.getManagedWebsite(testWeblog);
+			testWeblog = TestUtils.getManagedWebsite(testWeblog);
 
-        // no need to create root directory, that is done automatically now
-        //MediaFileDirectory rootDirectory = new MediaFileDirectory(null, "root", "root d", testWeblog);
-        //mfMgr.createMediaFileDirectory(rootDirectory);
-        //assertNotNull(rootDirectory.getId() != null);
+			// no need to create root directory, that is done automatically now
+			//MediaFileDirectory rootDirectory = new MediaFileDirectory(null, "root", "root d", testWeblog);
+			//mfMgr.createMediaFileDirectory(rootDirectory);
+			//assertNotNull(rootDirectory.getId() != null);
 
-        TestUtils.endSession(true);
+			TestUtils.endSession(true);
 
-        testWeblog = TestUtils.getManagedWebsite(testWeblog);
+			testWeblog = TestUtils.getManagedWebsite(testWeblog);
 
-        try {
-            mfMgr.createMediaFileDirectoryByPath(testWeblog, "");
-            assertTrue(false);
-        } catch (WebloggerException e) {
-            assertTrue(true);
-        }
+			try {
+				mfMgr.createMediaFileDirectoryByPath(testWeblog, "");
+				assertTrue(false);
+			} catch (WebloggerException e) {
+				assertTrue(true);
+			}
 
-        try {
-            mfMgr.createMediaFileDirectoryByPath(testWeblog, "/");
-            assertTrue(false);
-        } catch (WebloggerException e) {
-            assertTrue(true);
-        }
+			try {
+				mfMgr.createMediaFileDirectoryByPath(testWeblog, "/");
+				assertTrue(false);
+			} catch (WebloggerException e) {
+				assertTrue(true);
+			}
 
-        MediaFileDirectory newDirectory1 = mfMgr.createMediaFileDirectoryByPath(testWeblog, "/test1");
-        MediaFileDirectory newDirectory2 = mfMgr.createMediaFileDirectoryByPath(testWeblog, "/test2/");
-        TestUtils.endSession(true);
+			MediaFileDirectory newDirectory1 = mfMgr.createMediaFileDirectoryByPath(testWeblog, "/test1");
+			MediaFileDirectory newDirectory2 = mfMgr.createMediaFileDirectoryByPath(testWeblog, "/test2/");
+			TestUtils.endSession(true);
 
-        testWeblog = TestUtils.getManagedWebsite(testWeblog);
+			testWeblog = TestUtils.getManagedWebsite(testWeblog);
 
-        MediaFileDirectory newDirectory1ById = mfMgr.getMediaFileDirectory(newDirectory1.getId());
-        assertEquals(newDirectory1, newDirectory1ById);
+			MediaFileDirectory newDirectory1ById = mfMgr.getMediaFileDirectory(newDirectory1.getId());
+			assertEquals(newDirectory1, newDirectory1ById);
 
-        MediaFileDirectory newDirectory2ById = mfMgr.getMediaFileDirectory(newDirectory2.getId());
-        assertEquals("test2", newDirectory2ById.getName());
+			MediaFileDirectory newDirectory2ById = mfMgr.getMediaFileDirectory(newDirectory2.getId());
+			assertEquals("test2", newDirectory2ById.getName());
 
-        // show throw error when creating directory that already exists
-        try {
-            mfMgr.createMediaFileDirectoryByPath(testWeblog, "test1");
-            assertTrue(false);
-        } catch (WebloggerException e) {
-            assertTrue(true);
-        }
+			// show throw error when creating directory that already exists
+			try {
+				mfMgr.createMediaFileDirectoryByPath(testWeblog, "test1");
+				assertTrue(false);
+			} catch (WebloggerException e) {
+				assertTrue(true);
+			}
 
-        MediaFileDirectory newDirectory3 = mfMgr.createMediaFileDirectoryByPath(testWeblog, "/test1/test2");
-        TestUtils.endSession(true);
+			MediaFileDirectory newDirectory3 = mfMgr.createMediaFileDirectoryByPath(testWeblog, "/test1/test2");
+			TestUtils.endSession(true);
 
-        testWeblog = TestUtils.getManagedWebsite(testWeblog);
-        MediaFileDirectory newDirectory3ById = mfMgr.getMediaFileDirectory(newDirectory3.getId());
-        assertEquals(newDirectory3, newDirectory3ById);
+			testWeblog = TestUtils.getManagedWebsite(testWeblog);
+			MediaFileDirectory newDirectory3ById = mfMgr.getMediaFileDirectory(newDirectory3.getId());
+			assertEquals(newDirectory3, newDirectory3ById);
 
-        MediaFileDirectory newDirectory4 = mfMgr.createMediaFileDirectoryByPath(testWeblog, "/test1/test2/test3");
-        TestUtils.endSession(true);
+			MediaFileDirectory newDirectory4 = mfMgr.createMediaFileDirectoryByPath(testWeblog, "/test1/test2/test3");
+			TestUtils.endSession(true);
 
-        testWeblog = TestUtils.getManagedWebsite(testWeblog);
-        MediaFileDirectory newDirectory4ById = mfMgr.getMediaFileDirectory(newDirectory4.getId());
-        assertEquals(newDirectory4, newDirectory4ById);
+			testWeblog = TestUtils.getManagedWebsite(testWeblog);
+			MediaFileDirectory newDirectory4ById = mfMgr.getMediaFileDirectory(newDirectory4.getId());
+			assertEquals(newDirectory4, newDirectory4ById);
 
-        // show throw error when creating directory that already exists
-        try {
-            mfMgr.createMediaFileDirectoryByPath(testWeblog, "/test1/test2/test3");
-            assertTrue(false);
-        } catch (WebloggerException e) {
-            assertTrue(true);
-        }
+			// show throw error when creating directory that already exists
+			try {
+				mfMgr.createMediaFileDirectoryByPath(testWeblog, "/test1/test2/test3");
+				assertTrue(false);
+			} catch (WebloggerException e) {
+				assertTrue(true);
+			}
 
-        TestUtils.endSession(true);
-        TestUtils.teardownWeblog(testWeblog.getId());
-        TestUtils.teardownUser(testUser.getUserName());
+		} finally {
+			TestUtils.endSession(true);
+			TestUtils.teardownWeblog(testWeblog.getId());
+			TestUtils.teardownUser(testUser.getUserName());
+		}
     }
 
     /**
